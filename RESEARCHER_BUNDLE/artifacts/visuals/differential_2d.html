@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dual-Differentiable Proof Map (2D)</title>
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --card: #0f1721;
+      --border: #1c2a3a;
+      --text: #e6eef7;
+      --dim: #6b7d8c;
+      --accent: #4a9eff;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow: hidden;
+    }
+    #container {
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+    }
+    #canvas {
+      width: 100%;
+      height: 100%;
+      cursor: grab;
+    }
+    #canvas:active { cursor: grabbing; }
+    #controls {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px;
+      z-index: 100;
+    }
+    #controls h3 {
+      font-size: 14px;
+      margin-bottom: 8px;
+      color: var(--accent);
+    }
+    #search {
+      width: 200px;
+      padding: 6px 10px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+    #search:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    #legend {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      cursor: pointer;
+      padding: 2px 4px;
+      border-radius: 3px;
+    }
+    .legend-item:hover {
+      background: var(--border);
+    }
+    .legend-item.disabled {
+      opacity: 0.3;
+    }
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+    #tooltip {
+      position: absolute;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px 12px;
+      font-size: 12px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.15s;
+      z-index: 200;
+      max-width: 300px;
+    }
+    #tooltip.visible { opacity: 1; }
+    #tooltip .name { color: var(--accent); font-weight: 600; }
+    #tooltip .kind { color: var(--dim); margin-left: 6px; }
+    #tooltip .family { color: var(--text); margin-top: 4px; font-size: 11px; }
+    #title {
+      position: absolute;
+      bottom: 16px;
+      right: 16px;
+      font-size: 13px;
+      color: var(--dim);
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <canvas id="canvas"></canvas>
+    <div id="controls">
+      <h3>Dual-Differentiable Proofs</h3>
+      <input type="text" id="search" placeholder="Search declarations...">
+      <div id="legend"></div>
+    </div>
+    <div id="tooltip">
+      <span class="name"></span><span class="kind"></span>
+      <div class="family"></div>
+    </div>
+    <div id="title">Pan: drag | Zoom: scroll | Click legend to filter</div>
+  </div>
+  <script src="differential_proofs_data.js"></script>
+  <script>
+    const colors = {
+      'HoTT/Identity': '#a3a3a3',
+      'SKY/Core': '#5e9cff',
+      'SKY/Multiway': '#818cf8',
+      'Differential/VectorSpace': '#4ade80',
+      'Differential/LinearComb': '#22d3d3',
+      'Differential/Derivative': '#c77dff',
+      'Differential/Exponential': '#f472b6',
+      'Differential/Codereliction': '#fb923c',
+      'Differential/Loss': '#fbbf24',
+      'Differential/GradientDescent': '#ef4444',
+      'Differential/Nucleus': '#10b981',
+      'Differential/SKYDerivatives': '#6366f1',
+      'Compute/Runtime': '#d946ef'
+    };
+
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    const tooltip = document.getElementById('tooltip');
+    const searchInput = document.getElementById('search');
+    const legendDiv = document.getElementById('legend');
+
+    let scale = 1;
+    let offsetX = 0, offsetY = 0;
+    let isDragging = false;
+    let lastX, lastY;
+    let activeFilters = new Set(Object.keys(colors));
+    let searchTerm = '';
+
+    function resize() {
+      canvas.width = window.innerWidth * devicePixelRatio;
+      canvas.height = window.innerHeight * devicePixelRatio;
+      canvas.style.width = window.innerWidth + 'px';
+      canvas.style.height = window.innerHeight + 'px';
+      ctx.scale(devicePixelRatio, devicePixelRatio);
+      draw();
+    }
+
+    function toScreen(x, y) {
+      const cx = window.innerWidth / 2;
+      const cy = window.innerHeight / 2;
+      const baseScale = Math.min(window.innerWidth, window.innerHeight) * 0.7;
+      return {
+        x: cx + (x - 0.5) * baseScale * scale + offsetX,
+        y: cy + (y - 0.5) * baseScale * scale + offsetY
+      };
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width / devicePixelRatio, canvas.height / devicePixelRatio);
+
+      // Draw edges
+      ctx.strokeStyle = 'rgba(100, 116, 139, 0.3)';
+      ctx.lineWidth = 1;
+      for (const [i, j] of differentialProofsData.edges) {
+        const a = differentialProofsData.items[i];
+        const b = differentialProofsData.items[j];
+        if (!activeFilters.has(a.family) || !activeFilters.has(b.family)) continue;
+        const p1 = toScreen(a.pos.x, a.pos.y);
+        const p2 = toScreen(b.pos.x, b.pos.y);
+        ctx.beginPath();
+        ctx.moveTo(p1.x, p1.y);
+        ctx.lineTo(p2.x, p2.y);
+        ctx.stroke();
+      }
+
+      // Draw nodes
+      for (const item of differentialProofsData.items) {
+        if (!activeFilters.has(item.family)) continue;
+        const match = !searchTerm || item.name.toLowerCase().includes(searchTerm.toLowerCase());
+        const p = toScreen(item.pos.x, item.pos.y);
+        const r = match ? 6 : 3;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
+        ctx.fillStyle = match ? colors[item.family] : 'rgba(100, 116, 139, 0.3)';
+        ctx.fill();
+        if (match && searchTerm) {
+          ctx.strokeStyle = '#fff';
+          ctx.lineWidth = 2;
+          ctx.stroke();
+        }
+      }
+    }
+
+    function getItemAt(mx, my) {
+      for (const item of differentialProofsData.items) {
+        if (!activeFilters.has(item.family)) continue;
+        const p = toScreen(item.pos.x, item.pos.y);
+        const dx = mx - p.x, dy = my - p.y;
+        if (dx * dx + dy * dy < 100) return item;
+      }
+      return null;
+    }
+
+    function buildLegend() {
+      legendDiv.innerHTML = '';
+      for (const family of Object.keys(colors)) {
+        const div = document.createElement('div');
+        div.className = 'legend-item';
+        if (!activeFilters.has(family)) div.classList.add('disabled');
+        div.innerHTML = `<span class="legend-dot" style="background:${colors[family]}"></span>${family}`;
+        div.onclick = () => {
+          if (activeFilters.has(family)) activeFilters.delete(family);
+          else activeFilters.add(family);
+          div.classList.toggle('disabled');
+          draw();
+        };
+        legendDiv.appendChild(div);
+      }
+    }
+
+    canvas.addEventListener('mousedown', e => {
+      isDragging = true;
+      lastX = e.clientX;
+      lastY = e.clientY;
+    });
+
+    canvas.addEventListener('mousemove', e => {
+      if (isDragging) {
+        offsetX += e.clientX - lastX;
+        offsetY += e.clientY - lastY;
+        lastX = e.clientX;
+        lastY = e.clientY;
+        draw();
+      }
+      const item = getItemAt(e.clientX, e.clientY);
+      if (item) {
+        tooltip.querySelector('.name').textContent = item.name;
+        tooltip.querySelector('.kind').textContent = `(${item.kind})`;
+        tooltip.querySelector('.family').textContent = item.family;
+        tooltip.style.left = (e.clientX + 12) + 'px';
+        tooltip.style.top = (e.clientY + 12) + 'px';
+        tooltip.classList.add('visible');
+      } else {
+        tooltip.classList.remove('visible');
+      }
+    });
+
+    canvas.addEventListener('mouseup', () => isDragging = false);
+    canvas.addEventListener('mouseleave', () => {
+      isDragging = false;
+      tooltip.classList.remove('visible');
+    });
+
+    canvas.addEventListener('wheel', e => {
+      e.preventDefault();
+      const factor = e.deltaY > 0 ? 0.9 : 1.1;
+      scale *= factor;
+      scale = Math.max(0.3, Math.min(5, scale));
+      draw();
+    });
+
+    searchInput.addEventListener('input', e => {
+      searchTerm = e.target.value;
+      draw();
+    });
+
+    window.addEventListener('resize', resize);
+    buildLegend();
+    resize();
+  </script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <defs>
+    <linearGradient id="bg3d" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0b0f14"/>
+      <stop offset="100%" style="stop-color:#0f1721"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <rect width="800" height="500" fill="url(#bg3d)"/>
+
+  <!-- Title -->
+  <text x="400" y="35" text-anchor="middle" fill="#4a9eff" font-family="Inter, sans-serif" font-size="18" font-weight="600">
+    Dual-Differentiable Proof Map (3D)
+  </text>
+
+  <!-- 3D perspective edges -->
+  <g stroke="rgba(100,116,139,0.25)" stroke-width="1">
+    <line x1="150" y1="350" x2="220" y2="300"/>
+    <line x1="220" y1="300" x2="300" y2="260"/>
+    <line x1="300" y1="260" x2="400" y2="230"/>
+    <line x1="400" y1="230" x2="500" y2="200"/>
+    <line x1="500" y1="200" x2="600" y2="180"/>
+    <line x1="600" y1="180" x2="680" y2="150"/>
+    <line x1="300" y1="260" x2="350" y2="320"/>
+    <line x1="400" y1="230" x2="420" y2="300"/>
+    <line x1="500" y1="200" x2="480" y2="280"/>
+    <line x1="350" y1="320" x2="420" y2="300"/>
+    <line x1="420" y1="300" x2="480" y2="280"/>
+  </g>
+
+  <!-- Back layer nodes (smaller, dimmer) -->
+  <circle cx="150" cy="350" r="4" fill="#a3a3a3" opacity="0.6"/>
+  <circle cx="170" cy="340" r="3" fill="#a3a3a3" opacity="0.5"/>
+
+  <!-- Mid layer nodes -->
+  <circle cx="220" cy="300" r="5" fill="#5e9cff" opacity="0.8"/>
+  <circle cx="250" cy="290" r="4" fill="#5e9cff" opacity="0.7"/>
+  <circle cx="300" cy="260" r="6" fill="#818cf8" opacity="0.8"/>
+  <circle cx="350" cy="320" r="5" fill="#22d3d3" opacity="0.7"/>
+
+  <!-- Front layer nodes (larger, brighter) -->
+  <circle cx="400" cy="230" r="7" fill="#4ade80" filter="url(#glow)"/>
+  <circle cx="420" cy="300" r="6" fill="#c77dff" filter="url(#glow)"/>
+  <circle cx="480" cy="280" r="6" fill="#c77dff" filter="url(#glow)"/>
+  <circle cx="500" cy="200" r="8" fill="#fbbf24" filter="url(#glow)"/>
+  <circle cx="520" cy="220" r="6" fill="#fbbf24"/>
+  <circle cx="600" cy="180" r="9" fill="#ef4444" filter="url(#glow)"/>
+  <circle cx="640" cy="160" r="7" fill="#ef4444"/>
+  <circle cx="680" cy="150" r="6" fill="#ef4444"/>
+
+  <!-- Compute cluster -->
+  <circle cx="450" cy="350" r="5" fill="#d946ef" opacity="0.8"/>
+  <circle cx="480" cy="370" r="4" fill="#d946ef" opacity="0.7"/>
+  <circle cx="510" cy="360" r="5" fill="#d946ef" opacity="0.8"/>
+
+  <!-- Legend -->
+  <g transform="translate(50, 430)">
+    <circle cx="0" cy="0" r="5" fill="#a3a3a3"/><text x="12" y="4" fill="#6b7d8c" font-size="10">HoTT</text>
+    <circle cx="70" cy="0" r="5" fill="#5e9cff"/><text x="82" y="4" fill="#6b7d8c" font-size="10">SKY</text>
+    <circle cx="130" cy="0" r="5" fill="#4ade80"/><text x="142" y="4" fill="#6b7d8c" font-size="10">VectorSpace</text>
+    <circle cx="230" cy="0" r="5" fill="#c77dff"/><text x="242" y="4" fill="#6b7d8c" font-size="10">Derivative</text>
+    <circle cx="320" cy="0" r="5" fill="#fbbf24"/><text x="332" y="4" fill="#6b7d8c" font-size="10">Loss</text>
+    <circle cx="380" cy="0" r="5" fill="#ef4444"/><text x="392" y="4" fill="#6b7d8c" font-size="10">GradientDescent</text>
+    <circle cx="500" cy="0" r="5" fill="#d946ef"/><text x="512" y="4" fill="#6b7d8c" font-size="10">Compute</text>
+  </g>
+
+  <!-- Rotate hint -->
+  <text x="400" y="480" text-anchor="middle" fill="#6b7d8c" font-family="Inter, sans-serif" font-size="12">
+    Click to open interactive 3D viewer
+  </text>
+</svg>

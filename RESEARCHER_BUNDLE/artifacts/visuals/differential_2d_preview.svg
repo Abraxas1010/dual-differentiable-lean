@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0b0f14"/>
+      <stop offset="100%" style="stop-color:#0f1721"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#bg)"/>
+
+  <!-- Title -->
+  <text x="400" y="35" text-anchor="middle" fill="#4a9eff" font-family="Inter, sans-serif" font-size="18" font-weight="600">
+    Dual-Differentiable Proof Map (2D)
+  </text>
+
+  <!-- Edges (sample) -->
+  <g stroke="rgba(100,116,139,0.3)" stroke-width="1">
+    <line x1="100" y1="120" x2="180" y2="160"/>
+    <line x1="180" y1="160" x2="260" y2="200"/>
+    <line x1="260" y1="200" x2="350" y2="220"/>
+    <line x1="350" y1="220" x2="450" y2="250"/>
+    <line x1="450" y1="250" x2="550" y2="280"/>
+    <line x1="550" y1="280" x2="650" y2="320"/>
+    <line x1="650" y1="320" x2="720" y2="360"/>
+    <line x1="350" y1="220" x2="380" y2="300"/>
+    <line x1="450" y1="250" x2="500" y2="340"/>
+    <line x1="550" y1="280" x2="580" y2="380"/>
+  </g>
+
+  <!-- Nodes: HoTT/Identity -->
+  <circle cx="100" cy="120" r="6" fill="#a3a3a3"/>
+  <circle cx="120" cy="130" r="5" fill="#a3a3a3"/>
+
+  <!-- Nodes: SKY/Core -->
+  <circle cx="180" cy="160" r="7" fill="#5e9cff"/>
+  <circle cx="200" cy="175" r="6" fill="#5e9cff"/>
+  <circle cx="220" cy="185" r="5" fill="#5e9cff"/>
+
+  <!-- Nodes: SKY/Multiway -->
+  <circle cx="260" cy="200" r="6" fill="#818cf8"/>
+  <circle cx="285" cy="210" r="5" fill="#818cf8"/>
+
+  <!-- Nodes: Differential/VectorSpace -->
+  <circle cx="350" cy="220" r="7" fill="#4ade80"/>
+  <circle cx="370" cy="235" r="5" fill="#4ade80"/>
+
+  <!-- Nodes: Differential/LinearComb -->
+  <circle cx="380" cy="300" r="6" fill="#22d3d3"/>
+  <circle cx="400" cy="315" r="5" fill="#22d3d3"/>
+
+  <!-- Nodes: Differential/Derivative -->
+  <circle cx="450" cy="250" r="8" fill="#c77dff"/>
+  <circle cx="475" cy="265" r="6" fill="#c77dff"/>
+  <circle cx="495" cy="280" r="5" fill="#c77dff"/>
+
+  <!-- Nodes: Differential/Loss -->
+  <circle cx="550" cy="280" r="7" fill="#fbbf24"/>
+  <circle cx="575" cy="295" r="6" fill="#fbbf24"/>
+
+  <!-- Nodes: Differential/GradientDescent -->
+  <circle cx="650" cy="320" r="8" fill="#ef4444"/>
+  <circle cx="680" cy="340" r="7" fill="#ef4444"/>
+  <circle cx="720" cy="360" r="6" fill="#ef4444"/>
+
+  <!-- Nodes: Compute/Runtime -->
+  <circle cx="500" cy="340" r="6" fill="#d946ef"/>
+  <circle cx="530" cy="360" r="5" fill="#d946ef"/>
+  <circle cx="580" cy="380" r="6" fill="#d946ef"/>
+
+  <!-- Legend -->
+  <g transform="translate(50, 400)">
+    <circle cx="0" cy="0" r="5" fill="#a3a3a3"/><text x="12" y="4" fill="#6b7d8c" font-size="10">HoTT</text>
+    <circle cx="70" cy="0" r="5" fill="#5e9cff"/><text x="82" y="4" fill="#6b7d8c" font-size="10">SKY</text>
+    <circle cx="130" cy="0" r="5" fill="#4ade80"/><text x="142" y="4" fill="#6b7d8c" font-size="10">VectorSpace</text>
+    <circle cx="230" cy="0" r="5" fill="#c77dff"/><text x="242" y="4" fill="#6b7d8c" font-size="10">Derivative</text>
+    <circle cx="320" cy="0" r="5" fill="#fbbf24"/><text x="332" y="4" fill="#6b7d8c" font-size="10">Loss</text>
+    <circle cx="380" cy="0" r="5" fill="#ef4444"/><text x="392" y="4" fill="#6b7d8c" font-size="10">GradientDescent</text>
+    <circle cx="500" cy="0" r="5" fill="#d946ef"/><text x="512" y="4" fill="#6b7d8c" font-size="10">Compute</text>
+  </g>
+
+  <!-- Click hint -->
+  <text x="400" y="480" text-anchor="middle" fill="#6b7d8c" font-family="Inter, sans-serif" font-size="12">
+    Click to open interactive viewer
+  </text>
+</svg>

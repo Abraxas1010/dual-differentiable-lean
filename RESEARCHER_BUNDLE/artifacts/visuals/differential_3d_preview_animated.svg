@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <defs>
+    <linearGradient id="bg3da" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0b0f14"/>
+      <stop offset="100%" style="stop-color:#0f1721"/>
+    </linearGradient>
+    <filter id="glowa">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <rect width="800" height="500" fill="url(#bg3da)"/>
+
+  <!-- Title -->
+  <text x="400" y="35" text-anchor="middle" fill="#4a9eff" font-family="Inter, sans-serif" font-size="18" font-weight="600">
+    Dual-Differentiable Proof Map (3D)
+  </text>
+
+  <!-- Rotating group -->
+  <g transform="translate(400, 250)">
+    <animateTransform attributeName="transform" type="rotate" from="0 400 250" to="360 400 250" dur="20s" repeatCount="indefinite" additive="sum"/>
+
+    <!-- 3D perspective edges -->
+    <g stroke="rgba(100,116,139,0.25)" stroke-width="1">
+      <line x1="-250" y1="100" x2="-180" y2="50"/>
+      <line x1="-180" y1="50" x2="-100" y2="10"/>
+      <line x1="-100" y1="10" x2="0" y2="-20"/>
+      <line x1="0" y1="-20" x2="100" y2="-50"/>
+      <line x1="100" y1="-50" x2="200" y2="-70"/>
+      <line x1="200" y1="-70" x2="280" y2="-100"/>
+      <line x1="-100" y1="10" x2="-50" y2="70"/>
+      <line x1="0" y1="-20" x2="20" y2="50"/>
+      <line x1="100" y1="-50" x2="80" y2="30"/>
+    </g>
+
+    <!-- Back layer -->
+    <circle cx="-250" cy="100" r="4" fill="#a3a3a3" opacity="0.6"/>
+    <circle cx="-230" cy="90" r="3" fill="#a3a3a3" opacity="0.5"/>
+
+    <!-- Mid layer -->
+    <circle cx="-180" cy="50" r="5" fill="#5e9cff" opacity="0.8"/>
+    <circle cx="-150" cy="40" r="4" fill="#5e9cff" opacity="0.7"/>
+    <circle cx="-100" cy="10" r="6" fill="#818cf8" opacity="0.8"/>
+    <circle cx="-50" cy="70" r="5" fill="#22d3d3" opacity="0.7"/>
+
+    <!-- Front layer -->
+    <circle cx="0" cy="-20" r="7" fill="#4ade80" filter="url(#glowa)"/>
+    <circle cx="20" cy="50" r="6" fill="#c77dff" filter="url(#glowa)"/>
+    <circle cx="80" cy="30" r="6" fill="#c77dff" filter="url(#glowa)"/>
+    <circle cx="100" cy="-50" r="8" fill="#fbbf24" filter="url(#glowa)"/>
+    <circle cx="120" cy="-30" r="6" fill="#fbbf24"/>
+    <circle cx="200" cy="-70" r="9" fill="#ef4444" filter="url(#glowa)"/>
+    <circle cx="240" cy="-90" r="7" fill="#ef4444"/>
+    <circle cx="280" cy="-100" r="6" fill="#ef4444"/>
+
+    <!-- Compute cluster -->
+    <circle cx="50" cy="100" r="5" fill="#d946ef" opacity="0.8"/>
+    <circle cx="80" cy="120" r="4" fill="#d946ef" opacity="0.7"/>
+    <circle cx="110" cy="110" r="5" fill="#d946ef" opacity="0.8"/>
+  </g>
+
+  <!-- Legend -->
+  <g transform="translate(50, 430)">
+    <circle cx="0" cy="0" r="5" fill="#a3a3a3"/><text x="12" y="4" fill="#6b7d8c" font-size="10">HoTT</text>
+    <circle cx="70" cy="0" r="5" fill="#5e9cff"/><text x="82" y="4" fill="#6b7d8c" font-size="10">SKY</text>
+    <circle cx="130" cy="0" r="5" fill="#4ade80"/><text x="142" y="4" fill="#6b7d8c" font-size="10">VectorSpace</text>
+    <circle cx="230" cy="0" r="5" fill="#c77dff"/><text x="242" y="4" fill="#6b7d8c" font-size="10">Derivative</text>
+    <circle cx="320" cy="0" r="5" fill="#fbbf24"/><text x="332" y="4" fill="#6b7d8c" font-size="10">Loss</text>
+    <circle cx="380" cy="0" r="5" fill="#ef4444"/><text x="392" y="4" fill="#6b7d8c" font-size="10">GradientDescent</text>
+    <circle cx="500" cy="0" r="5" fill="#d946ef"/><text x="512" y="4" fill="#6b7d8c" font-size="10">Compute</text>
+  </g>
+
+  <!-- Rotate hint -->
+  <text x="400" y="480" text-anchor="middle" fill="#6b7d8c" font-family="Inter, sans-serif" font-size="12">
+    Click to open interactive 3D viewer
+  </text>
+</svg>

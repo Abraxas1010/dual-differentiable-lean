@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dual-Differentiable Visualizations</title>
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --card: #0f1721;
+      --border: #1c2a3a;
+      --text: #e6eef7;
+      --dim: #6b7d8c;
+      --accent: #4a9eff;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    h1 {
+      color: var(--accent);
+      font-size: 28px;
+      margin-bottom: 12px;
+    }
+    .subtitle {
+      color: var(--dim);
+      font-size: 16px;
+      margin-bottom: 40px;
+    }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 24px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    }
+    .card a {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+    }
+    .card img {
+      width: 100%;
+      height: auto;
+      border-bottom: 1px solid var(--border);
+    }
+    .card-content {
+      padding: 20px;
+    }
+    .card h2 {
+      font-size: 18px;
+      margin-bottom: 8px;
+      color: var(--accent);
+    }
+    .card p {
+      color: var(--dim);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    footer {
+      margin-top: 60px;
+      text-align: center;
+      color: var(--dim);
+      font-size: 13px;
+    }
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Dual-Differentiable Proof Visualizations</h1>
+    <p class="subtitle">Interactive maps of the machine-checked formalization</p>
+
+    <div class="cards">
+      <div class="card">
+        <a href="differential_2d.html">
+          <img src="differential_2d_preview.svg" alt="2D Proof Map">
+          <div class="card-content">
+            <h2>2D Proof Map</h2>
+            <p>Pan, zoom, and search through declarations. Filter by module family using the legend.</p>
+          </div>
+        </a>
+      </div>
+      <div class="card">
+        <a href="differential_3d.html">
+          <img src="differential_3d_preview_animated.svg" alt="3D Proof Map">
+          <div class="card-content">
+            <h2>3D Proof Map</h2>
+            <p>Rotate and explore the proof structure in 3D. Auto-rotate mode available.</p>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <footer>
+      <p>Part of the <a href="https://github.com/Abraxas1010/heyting">HeytingLean</a> project</p>
+      <p><a href="https://apoth3osis.io">apoth3osis.io</a></p>
+    </footer>
+  </div>
+</body>
+</html>

@@ -187,8 +187,5 @@ lake exe differential_sky_demo
 
 ## License
 
-MIT License — see [LICENSE](LICENSE) for details.
-
----
-
-<sub>Part of the <a href="https://github.com/Abraxas1010/heyting">HeytingLean</a> project | <a href="https://apoth3osis.io">apoth3osis.io</a></sub>
+This project is provided under the Apoth3osis License Stack v1.
+See `LICENSE.md` and the files under `licenses/`.
